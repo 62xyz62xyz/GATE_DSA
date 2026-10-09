@@ -1,54 +1,15 @@
 #include <stdio.h>
 
-// Recursive function to perform Bubble Sort
-void bubbleSort(int arr[], int n)
-{
-    int i, temp;
-
-    // BASE CASE:
-    // If the array has 0 or 1 element,
-    // it is already sorted, so stop recursion.
-    if (n <= 1)
-    {
-        return;
-    }
-
-    // STEP 1:
-    // Compare adjacent elements in one pass.
-    // Move the largest element to the end.
-    for (i = 0; i < n - 1; i++)
-    {
-        if (arr[i] > arr[i + 1])
-        {
-            // Swap adjacent elements
-            temp = arr[i];
-            arr[i] = arr[i + 1];
-            arr[i + 1] = temp;
-        }
-    }
-
-    // STEP 2:
-    // The largest element is now at index n - 1.
-    // Recursively sort the remaining n - 1 elements.
-    bubbleSort(arr, n - 1);
-}
-
 int main()
 {
-    int arr[100], n, i;
+    int arr[100], n, i, j, temp;
+    int swapped;
 
-    // Read the number of elements
+    // Step 1: Read the number of elements from the user
     printf("Enter the number of elements: ");
     scanf("%d", &n);
 
-    // Validate the array size
-    if (n < 1 || n > 100)
-    {
-        printf("Please enter a size between 1 and 100.\n");
-        return 1;
-    }
-
-    // Read array elements
+    // Step 2: Read the array elements
     printf("Enter %d elements:\n", n);
 
     for (i = 0; i < n; i++)
@@ -56,10 +17,48 @@ int main()
         scanf("%d", &arr[i]);
     }
 
-    // Call the recursive Bubble Sort function
-    bubbleSort(arr, n);
+    // Step 3: Apply Bubble Sort
+    // The outer loop controls the number of passes.
+    // After each pass, the largest unsorted element
+    // moves to its correct position at the end.
+    for (i = 0; i < n - 1; i++)
+    {
+        // Initially assume that no swapping is needed.
+        // If no swap occurs, the array is already sorted.
+        swapped = 0;
 
-    // Display the sorted array
+        // Compare adjacent elements.
+        // The - i part avoids checking elements that
+        // are already in their correct positions.
+        for (j = 0; j < n - 1 - i; j++)
+        {
+            // If the current element is greater than
+            // the next element, they are in the wrong order.
+            if (arr[j] > arr[j + 1])
+            {
+                // Store the current element temporarily.
+                temp = arr[j];
+
+                // Move the next element to the current position.
+                arr[j] = arr[j + 1];
+
+                // Put the stored element in the next position.
+                arr[j + 1] = temp;
+
+                // Record that a swap has occurred.
+                swapped = 1;
+            }
+        }
+
+        // If no swaps occurred during this pass,
+        // the array is already sorted, so stop early.
+        if (swapped == 0)
+        {
+            break;
+        }
+    }
+
+    // Step 4: Display the sorted array
     printf("Sorted array in ascending order:\n");
 
     for (i = 0; i < n; i++)
@@ -69,5 +68,5 @@ int main()
 
     printf("\n");
 
-    return 0;
+    return 0;  // End the program successfully
 }
